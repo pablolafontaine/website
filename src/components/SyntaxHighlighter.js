@@ -1,5 +1,6 @@
 "use client";
 
+import Giscus from "@giscus/react";
 import { Prism } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { oneLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -70,7 +71,7 @@ const Div = styled.div`
   }
   ,
   a {
-    color: #63b3ed;
+    color: #4582ec;
   }
   a:link {
     text-decoration: none;
@@ -146,6 +147,23 @@ export default function SyntaxHighlighter({ content }) {
   return (
     <Div className="container relative mx-auto px-8 sm:px-32 md:px-48 lg:px-64 xl:px-96 pb-16">
       <ReactMarkdown components={MarkdownComponents}>{content}</ReactMarkdown>
+      <Giscus
+        id="comments"
+        repo="pablolafontaine/website"
+        repoId="R_kgDOK70mLA"
+        category="Announcements"
+        categoryId="DIC_kwDOK70mLM4Cb5N8"
+        mapping="title"
+        strict="0"
+        reactionsEnabled="1"
+        emitMetadata="0"
+        inputPosition="top"
+        theme="noborder_light"
+        lang="en"
+        loading="lazy"
+        crossOrigin="anonymous"
+        async
+      />
     </Div>
   );
 }

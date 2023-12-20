@@ -1,7 +1,6 @@
 import styles from "../../blog.module.css";
 import fs from "fs";
 import matter from "gray-matter";
-import Giscus from "@giscus/react";
 
 import rangeParser from "parse-numeric-range";
 import SyntaxHighlighter from "../../../components/SyntaxHighlighter";
