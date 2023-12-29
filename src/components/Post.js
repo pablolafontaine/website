@@ -3,13 +3,11 @@ import matter from "gray-matter";
 import Link from "next/link";
 import SyntaxHighlighter from "./SyntaxHighlighter";
 import Divider from "@mui/material/Divider";
-
+import path from "path";
 async function getPost(fileName) {
 
     const slug = fileName.replace(".md", "");
-    console.log("cwd: " + process.cwd());
-    console.log("files: " + fs.readdirSync("/vercel/output/"));
-    const readFile = fs.readFileSync(`/vercel/output/static/posts/${fileName}.md`);
+    const readFile = fs.readFileSync(path.join(process.cwd(), `/src/app/posts/${fileName}.md`));
     const { data: frontmatter, content } = matter(readFile);
     const caption = content.substr(0, 200).replace(/\*/g, "").concat("...");
     let readLength = (content.split(" ").length / 125).toFixed(0);
@@ -26,7 +24,7 @@ async function getPost(fileName) {
 }
 
 
-export default async function Posts({ name }) {
+export default async function Post({ name }) {
   const post = await getPost(name);
   const { slug, frontmatter, readLength,content, caption } = post;
   const { title, date } = frontmatter;

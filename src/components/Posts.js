@@ -1,15 +1,16 @@
 import fs from "fs";
 import matter from "gray-matter";
 import Link from "next/link";
+import path from "path";
 
 async function getPosts() {
-  const files = fs.readdirSync("./public/static/posts/");
+  const files = fs.readdirSync(path.join(process.cwd(),`/src/app/posts/`));
 
   const posts = files.map((fileName) => {
 	console.log(fileName);
     if(fileName.includes(".md")){
     const slug = fileName.replace(".md", "");
-    const readFile = fs.readFileSync(`./public/static/posts/${fileName}`);
+    const readFile = fs.readFileSync(path.join(process.cwd(), `/src/app/posts/${fileName}`));
     const { data: frontmatter, content } = matter(readFile);
     const caption = content.substr(0, 200).replace(/\*/g, "").concat("...");
     let readLength = (content.split(" ").length / 125).toFixed(0);
