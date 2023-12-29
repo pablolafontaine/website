@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-brands-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@giscus/react": "^2.4.0",
+    "@mui/material": "^5.15.2",
     "gray-matter": "^4.0.3",
     "moderndash": "^3.8.0",
     "next": "13.5.4",
