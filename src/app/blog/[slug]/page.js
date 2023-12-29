@@ -35,6 +35,7 @@ async function getPost(slug) {
   try {
     fileName = fs.readFileSync(`src/components/posts/${slug}.md`, "utf-8");
   } catch (_) {
+    console.log("Couldn't find blog at " + slug + ".md!");
     notFound();
   }
   const { data: frontmatter, content } = matter(fileName);
