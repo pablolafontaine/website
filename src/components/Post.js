@@ -8,8 +8,8 @@ async function getPost(fileName) {
 
     const slug = fileName.replace(".md", "");
     console.log("cwd: " + process.cwd());
-    console.log("files: " + fs.readdirSync("./.next"));
-    const readFile = fs.readFileSync(`.next/static/posts/${fileName}.md`);
+    console.log("files: " + fs.readdirSync("/vercel/output/"));
+    const readFile = fs.readFileSync(`/vercel/output/static/posts/${fileName}.md`);
     const { data: frontmatter, content } = matter(readFile);
     const caption = content.substr(0, 200).replace(/\*/g, "").concat("...");
     let readLength = (content.split(" ").length / 125).toFixed(0);
