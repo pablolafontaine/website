@@ -1,5 +1,6 @@
 import fs from "fs";
 import matter from "gray-matter";
+import Link from "next/link";
 
 async function getPosts() {
   const files = fs.readdirSync("src/components/posts/");
@@ -35,7 +36,7 @@ export default async function Posts() {
             <p className="inline text-sm text-gray-500 font-mono">
               {date} {" » "}
             </p>
-            <a href={`/blog/${slug}`}>{title}</a>
+            <Link href={`/blog/${slug}`}>{title}</Link>
           </div>
         );
       })}
