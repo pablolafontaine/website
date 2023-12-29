@@ -34,7 +34,7 @@ async function getPost(slug) {
   var fileName;
   try {
     console.log(process.cwd());
-    fileName = fs.readFileSync(`./static/posts/${slug}.md`);
+    fileName = fs.readFileSync(`/static/posts/${slug}.md`);
   } catch (_) {
     console.log("Couldn't find blog at " + slug + ".md!");
     notFound();
