@@ -9,7 +9,7 @@ import SyntaxHighlighter from "../../../components/SyntaxHighlighter";
 import Divider from "@mui/material/Divider";
 export default async function Post({ params }) {
   const post = await getPost(params.slug);
-
+  console.log(params.slug);
   const { slug, frontmatter, content, caption, readLength } = post;
   return (
     <>
@@ -33,7 +33,8 @@ export default async function Post({ params }) {
 async function getPost(slug) {
   var fileName;
   try {
-    fileName = fs.readFileSync(`./public/static/posts/${slug}.md`, "utf-8");
+    console.log(process.cwd());
+    fileName = fs.readFileSync(`./public/static/posts/${slug}.md`);
   } catch (_) {
     console.log("Couldn't find blog at " + slug + ".md!");
     notFound();
