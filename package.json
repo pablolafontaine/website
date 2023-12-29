@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@giscus/react": "^2.4.0",
+    "gray-matter": "^4.0.3",
     "moderndash": "^3.8.0",
     "next": "13.5.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "styled-components": "^6.1.6"
   },
   "devDependencies": {
     "autoprefixer": "^10",
