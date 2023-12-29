@@ -7,7 +7,9 @@ import Divider from "@mui/material/Divider";
 async function getPost(fileName) {
 
     const slug = fileName.replace(".md", "");
-    const readFile = fs.readFileSync(`./public/static/posts/${fileName}.md`);
+    console.log("cwd: " + process.cwd());
+    console.log("files: " + fs.readdirSync("./"));
+    const readFile = fs.readFileSync(`/static/posts/${fileName}.md`);
     const { data: frontmatter, content } = matter(readFile);
     const caption = content.substr(0, 200).replace(/\*/g, "").concat("...");
     let readLength = (content.split(" ").length / 125).toFixed(0);
