@@ -33,7 +33,7 @@ export default async function Post({ params }) {
 async function getPost(slug) {
   var fileName;
   try {
-    fileName = fs.readFileSync(`src/components/posts/${slug}.md`, "utf-8");
+    fileName = fs.readFileSync(`./public/static/posts/${slug}.md`, "utf-8");
   } catch (_) {
     console.log("Couldn't find blog at " + slug + ".md!");
     notFound();
