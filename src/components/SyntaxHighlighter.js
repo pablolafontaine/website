@@ -145,7 +145,7 @@ export default function SyntaxHighlighter({ content }) {
   };
 
   return (
-    <Div className="container relative mx-auto px-8 sm:px-32 md:px-48 lg:px-64 xl:px-96 pb-16">
+    <Div>
       <ReactMarkdown components={MarkdownComponents}>{content}</ReactMarkdown>
       <Giscus
         id="comments"

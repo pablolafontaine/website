@@ -1,6 +1,7 @@
 import styles from "../../blog.module.css";
 import fs from "fs";
 import matter from "gray-matter";
+import { notFound } from "next/navigation";
 
 import rangeParser from "parse-numeric-range";
 import SyntaxHighlighter from "../../../components/SyntaxHighlighter";
@@ -13,17 +14,15 @@ export default async function Post({ params }) {
   return (
     <>
       <main>
-        <div className="container relative mx-auto px-8 sm:px-32 md:px-48 lg:px-64 xl:px-96 pt-16 pb-8">
-          <p className="text-4xl">{frontmatter.title}</p>
-          <p className="mt-2 opacity-50">
-            Pablo Lafontaine
-            {" • "}
-            {frontmatter.date}
-            {" • "}
-            {readLength} minute read
-          </p>
-          <Divider className="mt-2 w-75" />
-        </div>
+        <p className="text-4xl">{frontmatter.title}</p>
+        <p className="mt-2 opacity-50">
+          Pablo Lafontaine
+          {" • "}
+          {frontmatter.date}
+          {" • "}
+          {readLength} minute read
+        </p>
+        <Divider className="mt-2 mb-6 w-75" />
 
         <SyntaxHighlighter content={content} />
       </main>
@@ -32,7 +31,12 @@ export default async function Post({ params }) {
 }
 
 async function getPost(slug) {
-  const fileName = fs.readFileSync(`src/components/posts/${slug}.md`, "utf-8");
+  var fileName;
+  try {
+    fileName = fs.readFileSync(`src/components/posts/${slug}.md`, "utf-8");
+  } catch (_) {
+    notFound();
+  }
   const { data: frontmatter, content } = matter(fileName);
 
   const caption = content
