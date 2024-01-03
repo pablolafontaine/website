@@ -12,6 +12,12 @@ body {
   background: rgb(var(--background-rgb));
 }
 
+br {
+  display: block;
+  content: "";
+  margin-top: 1em;
+}
+
 a {
   color: #4582ec;
 }
