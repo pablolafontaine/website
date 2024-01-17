@@ -7,7 +7,6 @@ async function getPosts() {
   const files = fs.readdirSync(path.join(process.cwd(),`/src/app/posts/`));
 
   const posts = files.map((fileName) => {
-	console.log(fileName);
     if(fileName.includes(".md")){
     const slug = fileName.replace(".md", "");
     const readFile = fs.readFileSync(path.join(process.cwd(), `/src/app/posts/${fileName}`));
