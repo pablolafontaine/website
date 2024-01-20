@@ -3,7 +3,6 @@ title: "Setting up Arch Linux in WSL 2 for Development"
 date: "May 25, 2022"
 tags: "WSL, Linux, Productivity"
 ---
-
 **Windows Subsystem for Linux 2** (WSL 2) allows you to install a Linux Distribution and run Linux binaries natively on Windows; all through the command line. A full Linux kernel in a managed VM without the need for large overhead from a full VM, nor the annoyance of having to dual-boot? Sounds too good to be true! Thankfully, it isn't. Furthermore, it's rather easy to set up. 🙂
 
 &nbsp;

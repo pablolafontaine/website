@@ -2,10 +2,10 @@
 
 import Giscus from "@giscus/react";
 import { Prism } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { oneLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
+import rangeParser from "parse-numeric-range";
 
 const Div = styled.div`
   blockquote {
