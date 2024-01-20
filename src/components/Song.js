@@ -10,10 +10,10 @@ const ScrollingText = styled.a`
   color: white;
   animation: ${(props) =>
     props.$toggle
-      ? `my-animation ${props.$textWidth * 30}ms linear infinite`
+      ? `title-animation ${props.$textWidth * 50}ms linear infinite`
       : "none"};
 
-  @keyframes my-animation {
+  @keyframes title-animation {
     0% {
       transform: translateX(0%);
     }
@@ -41,18 +41,57 @@ const ScrollingText = styled.a`
     }
   }
 `;
+const ScrollingArtists = styled.div`
+  display: inline-block;
+  color: white;
+  animation: ${(props) =>
+    props.$toggle
+      ? `artists-animation ${props.$textWidth * 50}ms linear infinite`
+      : "none"};
+      @keyframes artists-animation {
+        0% {
+          transform: translateX(0%);
+        }
+        20% {
+          transform: translateX(0%);
+        }
+        50% {
+          transform: translateX(
+            ${(props) =>
+              props.$textWidth > props.$containerWidth - 16
+                ? -props.$textWidth - 16 + props.$containerWidth
+                : 0}px
+          );
+        }
+        70% {
+          transform: translateX(
+            ${(props) =>
+              props.$textWidth > props.$containerWidth - 16
+                ? -props.$textWidth - 16 + props.$containerWidth
+                : 0}px
+          );
+        }
+        100% {
+          transform: translateX(0%);
+        }
+      }
+`;
 
 export default function Song() {
-  const { lastMessage } = useWebSocket("ws://localhost:8080");
+  const { lastMessage } = useWebSocket("wss://now-playing-n27h.onrender.com");
   const songData = lastMessage ? JSON.parse(lastMessage.data) : null;
   const [deltaTime, setDeltaTime] = useState(0);
   const [textWidth, setTextWidth] = useState(0);
+  const [artistsWidth, setArtistsWidth] = useState(0);
   const [containerWidth, setContainerWidth] = useState(16);
   const [toggle, setToggle] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
+  
 
   const scrollContainer = useRef();
   const scrollText = useRef();
+  const scrollArtists = useRef();
+
   const scrollContainerCurr = scrollContainer.current
     ? scrollContainer.current.clientWidth
     : null;
@@ -108,6 +147,7 @@ export default function Song() {
     if (scrollText.current && scrollContainer.current) {
       setContainerWidth(scrollContainer.current.clientWidth);
       setTextWidth(scrollText.current.clientWidth);
+      setArtistsWidth(scrollArtists.current.clientWidth);
       setToggle(false);
     }
   }, [
@@ -218,7 +258,14 @@ export default function Song() {
               {songData.name}
             </ScrollingText>
           </div>
-          <div className="flex">{artists}</div>
+          <ScrollingArtists 
+          ref={scrollArtists}
+          $textWidth={artistsWidth}
+              $containerWidth={containerWidth}
+              $toggle={toggle}>
+          <div className="flex text-nowrap whitespace-nowrap">{artists}</div>
+          </ScrollingArtists>
+          <div>
           <a
             className="hidden lg:block overflow-hidden text-ellipsis whitespace-nowrap text-gray-200"
             title={songData.album_name}
@@ -227,6 +274,7 @@ export default function Song() {
             {" "}
             on {songData.album_name}{" "}
           </a>
+          </div>
           <div className="pt-0 lg:pt-2 inline-flex w-full items-center">
             <p>
               {" "}
