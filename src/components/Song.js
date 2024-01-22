@@ -105,7 +105,7 @@ export default function Song() {
 
   const progressInterval = useRef();
 
-  const currentSong = songData ? songData.id : null;
+  const currentSong = songData ? songData.progress : null;
 
   const artists = currentSong
     ? Object.keys(songData.artists).map((key, i) => {
