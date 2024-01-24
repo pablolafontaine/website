@@ -48,37 +48,42 @@ const ScrollingArtists = styled.div`
     props.$toggle
       ? `artists-animation ${props.$textWidth * 50}ms linear infinite`
       : "none"};
-      @keyframes artists-animation {
-        0% {
-          transform: translateX(0%);
-        }
-        20% {
-          transform: translateX(0%);
-        }
-        50% {
-          transform: translateX(
-            ${(props) =>
-              props.$textWidth > props.$containerWidth - 16
-                ? -props.$textWidth - 16 + props.$containerWidth
-                : 0}px
-          );
-        }
-        70% {
-          transform: translateX(
-            ${(props) =>
-              props.$textWidth > props.$containerWidth - 16
-                ? -props.$textWidth - 16 + props.$containerWidth
-                : 0}px
-          );
-        }
-        100% {
-          transform: translateX(0%);
-        }
-      }
+  @keyframes artists-animation {
+    0% {
+      transform: translateX(0%);
+    }
+    20% {
+      transform: translateX(0%);
+    }
+    50% {
+      transform: translateX(
+        ${(props) =>
+          props.$textWidth > props.$containerWidth - 16
+            ? -props.$textWidth - 16 + props.$containerWidth
+            : 0}px
+      );
+    }
+    70% {
+      transform: translateX(
+        ${(props) =>
+          props.$textWidth > props.$containerWidth - 16
+            ? -props.$textWidth - 16 + props.$containerWidth
+            : 0}px
+      );
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
 `;
 
 export default function Song() {
-  const { lastMessage } = useWebSocket("wss://now-playing-n27h.onrender.com");
+  const { lastMessage } = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
+    shouldReconnect: () => true,
+    reconnectAttempts: 10,
+    reconnectInterval: 5,
+    retryOnError: true,
+  });
   const songData = lastMessage ? JSON.parse(lastMessage.data) : null;
   const [deltaTime, setDeltaTime] = useState(0);
   const [textWidth, setTextWidth] = useState(0);
@@ -86,7 +91,6 @@ export default function Song() {
   const [containerWidth, setContainerWidth] = useState(16);
   const [toggle, setToggle] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
-  
 
   const scrollContainer = useRef();
   const scrollText = useRef();
@@ -132,14 +136,16 @@ export default function Song() {
       })
     : null;
   useEffect(() => {
-    window.addEventListener("resize", handleResize, false);
+    window.addEventListener("resize", handleWindow, false);
+    window.addEventListener("focus", handleWindow, false);
     return () => {
       clearInterval(progressInterval.current);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleWindow);
+      window.removeEventListener("focus", handleWindow);
     };
   }, []);
 
-  function handleResize() {
+  function handleWindow() {
     setResetScroll(!resetScroll);
   }
 
@@ -220,81 +226,91 @@ export default function Song() {
     const progressPercent =
       ((songData.progress + deltaTime * 1000) / songData.duration) * 100;
     return (
-      <div
-        style={{ backgroundColor: hslString }}
-        className="rounded-md p-2 flex w-[250px] lg:w-[400px] xl:w-[400px] m-auto items-center h-full"
-      >
-        <a
-          href={songData.album_url}
-          className="z-20 flex-none w-[64px] h-[64px] lg:w-[96px] lg:h-[96px] xl:w-[128px] xl:h-[128px]"
-        >
-          <Image
-            src={songData.album_image}
-            width={128}
-            height={128}
-            alt="Album Art"
-            className="w-full shadow-black shadow-2xl"
-          />
-        </a>
+      <>
+        <div className="p-2 w-[250px] lg:w-[400px] xl:w-[400px] m-auto items-center font-mono text-sm italic text-gray-500">
+          listening to spotify
+        </div>
+
         <div
-          className="pl-4 relative inline text-gray-200 text-sm w-full truncate z-0"
-          ref={scrollContainer}
+          style={{ backgroundColor: hslString }}
+          className="rounded-md p-2 flex w-[250px] lg:w-[400px] xl:w-[400px] m-auto items-center h-full"
         >
+          <a
+            href={songData.album_url}
+            className="z-20 flex-none w-[64px] h-[64px] lg:w-[96px] lg:h-[96px] xl:w-[128px] xl:h-[128px]"
+          >
+            <Image
+              src={songData.album_image}
+              width={128}
+              height={128}
+              alt="Album Art"
+              className="w-full shadow-black shadow-2xl"
+            />
+          </a>
           <div
-            className="h-full top-0 left-0 w-4 absolute z-10"
-            style={{
-              backgroundImage: `linear-gradient(to right, ${hslString}, ${hslaString})`,
-            }}
-          />
-          <div className="w-full pb-0 text-white text-md xl:text-xl font-semibold">
-            <ScrollingText
-              href={songData.song_url}
-              ref={scrollText}
-              title={songData.name}
-              $textWidth={textWidth}
+            className="pl-4 relative inline text-gray-200 text-sm w-full truncate z-0"
+            ref={scrollContainer}
+          >
+            <div
+              className="h-full top-0 left-0 w-4 absolute z-10"
+              style={{
+                backgroundImage: `linear-gradient(to right, ${hslString}, ${hslaString})`,
+              }}
+            />
+            <div className="w-full pb-0 text-white text-md xl:text-xl font-semibold">
+              <ScrollingText
+                href={songData.song_url}
+                ref={scrollText}
+                title={songData.name}
+                $textWidth={textWidth}
+                $containerWidth={containerWidth}
+                $toggle={toggle}
+              >
+                {songData.name}
+              </ScrollingText>
+            </div>
+            <ScrollingArtists
+              ref={scrollArtists}
+              $textWidth={artistsWidth}
               $containerWidth={containerWidth}
               $toggle={toggle}
             >
-              {songData.name}
-            </ScrollingText>
-          </div>
-          <ScrollingArtists 
-          ref={scrollArtists}
-          $textWidth={artistsWidth}
-              $containerWidth={containerWidth}
-              $toggle={toggle}>
-          <div className="flex text-nowrap whitespace-nowrap">{artists}</div>
-          </ScrollingArtists>
-          <div>
-          <a
-            className="hidden lg:block overflow-hidden text-ellipsis whitespace-nowrap text-gray-200"
-            title={songData.album_name}
-            href={songData.album_url}
-          >
-            {" "}
-            on {songData.album_name}{" "}
-          </a>
-          </div>
-          <div className="pt-0 lg:pt-2 inline-flex w-full items-center">
-            <p>
-              {" "}
-              {progress.h == 0 ? "" : progress.h + ":"}
-              {progress.m}:{progress.s < 10 ? "0" + progress.s : progress.s}{" "}
-            </p>
-            <div className="bg-white/20 mx-2 rounded-md h-[0.4em] w-full">
-              <div
-                style={{ width: `${progressPercent}%` }}
-                className={"bg-white rounded-md h-full"}
-              ></div>
+              <div className="flex text-nowrap whitespace-nowrap">
+                {artists}
+              </div>
+            </ScrollingArtists>
+            <div className="hidden lg:flex">
+              <p> on </p>
+              <a
+                className="overflow-hidden pl-[0.25em] text-ellipsis whitespace-nowrap text-gray-200"
+                title={songData.album_name}
+                href={songData.album_url}
+              >
+                {songData.album_name}
+              </a>
             </div>
-            <p>
-              {" "}
-              {duration.h == 0 ? "" : duration.h + ":"}
-              {duration.m}:{duration.s < 10 ? "0" + duration.s : duration.s}{" "}
-            </p>
+            <div></div>
+            <div className="pt-0 lg:pt-2 inline-flex w-full items-center">
+              <p>
+                {" "}
+                {progress.h == 0 ? "" : progress.h + ":"}
+                {progress.m}:{progress.s < 10 ? "0" + progress.s : progress.s}{" "}
+              </p>
+              <div className="bg-white/20 mx-2 rounded-md h-[0.4em] w-full">
+                <div
+                  style={{ width: `${progressPercent}%` }}
+                  className={"bg-white rounded-md h-full"}
+                ></div>
+              </div>
+              <p>
+                {" "}
+                {duration.h == 0 ? "" : duration.h + ":"}
+                {duration.m}:{duration.s < 10 ? "0" + duration.s : duration.s}{" "}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   } else {
     return <></>;

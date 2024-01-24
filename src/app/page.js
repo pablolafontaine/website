@@ -5,7 +5,7 @@ import Song from "../components/Song";
 export default function Home() {
   return (
     <>
-      <p className="text-4xl pb-2"> Pablo Lafontaine </p>
+      <p className="text-2xl pb-2 font-semibold"> Pablo Lafontaine </p>
       <div className="inline text-sm font-mono italic">
         <a className="!text-gray-500" href="mailto:pablolafontaine1@gmail.com">
           email
@@ -38,7 +38,7 @@ export default function Home() {
         <Song />
       </div>
       <Divider className="py-2" />
-      <p className="text-2xl pb-2 pt-2"> Posts </p>
+      <p className="text-2xl pb-2 pt-2 font-semibold"> Posts </p>
       <Posts />
     </>
   );
