@@ -16,7 +16,7 @@ export default function ThemeSwitcher() {
 
   return (
     <IconButton
-      colorScheme={theme == "dark" ? "orange" : "purple"}
+      colorScheme={theme == "dark" ? "yellow" : "purple"}
       aria-label="Toggle Theme"
       variant="outline"
       size="lg"

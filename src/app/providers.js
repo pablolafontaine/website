@@ -19,7 +19,7 @@ export default function Providers({ children }) {
   return (
     <NextUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="dark">
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        <ChakraProvider resetCSS={false} cssVarsRoot="body" theme={theme}>{children}</ChakraProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );
