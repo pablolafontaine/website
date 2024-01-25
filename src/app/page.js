@@ -1,6 +1,6 @@
-import Divider from "@mui/material/Divider";
 import Posts from "../components/Posts";
 import Song from "../components/Song";
+import { Divider } from "@chakra-ui/react";
 
 export default function Home() {
   return (
@@ -37,7 +37,7 @@ export default function Home() {
       <div className="w-full mt-4">
         <Song />
       </div>
-      <Divider className="py-2" />
+      <Divider className="pt-2" borderColor={"gray"} />
       <p className="text-2xl pb-2 pt-2 font-semibold"> Posts </p>
       <Posts />
     </>

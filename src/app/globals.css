@@ -9,7 +9,7 @@ br {
 }
 
 a {
-  color: #4582ec;
+  color: #4582ec !important;
 }
 
 a:hover {
