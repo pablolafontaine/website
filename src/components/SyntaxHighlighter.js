@@ -6,6 +6,7 @@ import { oneLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 import rangeParser from "parse-numeric-range";
+import { useTheme } from "next-themes";
 
 const Div = styled.div`
   blockquote {
@@ -94,6 +95,7 @@ const Div = styled.div`
 `;
 
 export default function SyntaxHighlighter({ content }) {
+  const { theme } = useTheme();
   const bgColor = "rgb(240, 240, 245)";
   const syntaxTheme = oneLight;
   const MarkdownComponents = {
@@ -158,7 +160,7 @@ export default function SyntaxHighlighter({ content }) {
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="top"
-        theme="noborder_light"
+        theme={theme == "dark" ? "noborder_dark" : "noborder_light"}
         lang="en"
         loading="lazy"
         crossOrigin="anonymous"

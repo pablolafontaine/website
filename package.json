@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@giscus/react": "^2.4.0",
+    "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.2",
     "color-thief-react": "^2.0.5",
     "gray-matter": "^4.0.3",
